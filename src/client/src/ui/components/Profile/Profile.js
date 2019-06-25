@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Profile.module.scss';
 import Avatar from '../Avatar/Avatar';
 
-const Profile = ({ auth }) => (
-    <main className={styles.profile}>
-        <Avatar emailHash={auth.emailHash}/>
-        <h1>{auth.name}</h1>
-    </main>
-);
+const Profile = ({ auth }) => {
+
+    useEffect(() => {
+        document.title=`Redux Auth | ${auth.name}`;
+    });
+
+    return (
+        <main className={styles.profile}>
+            <Avatar emailHash={auth.emailHash}/>
+            <h1>{auth.name}</h1>
+        </main>
+    )
+}
 
 Profile.propTypes = {
     auth: PropTypes.shape({

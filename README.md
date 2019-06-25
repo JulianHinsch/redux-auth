@@ -10,13 +10,13 @@ Note: this technique should not be used in production as it does not protect aga
 
 ## Tech Stack
 
-Database - Postgres
+Database: Postgres
 
-ORM - Sequelize
+ORM: Sequelize
 
-Server - Express
+Server: Express
 
-Client - React/Redux, SCSS
+Client: React/Redux, SCSS
 
 ## Special Thanks
 
