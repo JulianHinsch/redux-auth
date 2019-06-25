@@ -12,11 +12,6 @@ const seed = () => {
     .then(async () => {
         const users = [
             {
-                email: 'jhinsch799@gmail.com',
-                password: 'temp',
-                name: 'Julian Hinsch',
-            },
-            {
                 email: 'jane.doe@gmail.com',
                 password: 'temp',
                 name: 'Jane Doe',
