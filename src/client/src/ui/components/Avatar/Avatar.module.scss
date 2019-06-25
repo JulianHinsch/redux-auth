@@ -1,0 +1,10 @@
+@import '../../styles/global.scss';
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: $color-background;
+    margin-right: 10px;
+    flex-shrink: 0;
+}

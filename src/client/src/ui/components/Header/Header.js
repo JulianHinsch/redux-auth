@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
 import styles from './Header.module.scss';
 import PropTypes from 'prop-types';
-import history from '../../../history';
 
-const Header = ({ auth, logout }) => (
+const Header = ({ auth, logOut }) => (
     <header className={styles.header}>
         <nav>
             <Link to='/' className={styles.logo} title='Home'>
