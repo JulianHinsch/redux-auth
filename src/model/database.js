@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const database = new Sequelize(process.env.DATABASE_URL);
 
-const User = require('./schema/user')(database, Sequelize);
+const User = require('./schema/User')(database, Sequelize);
 
 const sync = () => database.sync({ force: true });
 
