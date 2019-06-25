@@ -1,5 +1,5 @@
 require('dotenv').config();
-const Express = require('express');
+const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const database = require('./model/database');
 
-const app = new Express();
+const app = express();
 
 if(process.env.NODE_ENV === 'development') {
     app.use(cors({
@@ -27,7 +27,7 @@ const router = require('./routes');
 app.use(router);
 
 if(process.env.NODE_ENV !== 'development') {
-    app.use(Express.static(path.join(__dirname, 'src/client/build')));    
+    app.use(express.static(__dirname + '/client/build'));    
 }
 
 // general error handling
