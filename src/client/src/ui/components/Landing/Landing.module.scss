@@ -1,9 +1,9 @@
-@import '../../styles/global.scss';
+@import "../../styles/global.scss";
 
 .landing {
-    width: 90%;
-    margin: auto;
-    & a {
-        color: $color-link;
-    }
+  width: 90%;
+  margin: auto;
+  & a {
+    color: $color-link;
+  }
 }

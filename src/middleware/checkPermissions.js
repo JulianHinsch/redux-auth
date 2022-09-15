@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
-    if(req.decoded.id === req.params.id) {
-        return next();
-    }
-    return res.status(403).json({ message: 'Unauthorized' });
-}
+  if (req.decoded.id === req.params.id) {
+    return next();
+  }
+  return res.status(403).json({ message: "Unauthorized" });
+};

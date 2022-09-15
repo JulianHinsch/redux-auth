@@ -1,14 +1,17 @@
-import { connect } from 'react-redux';
-import * as actions from '../../../redux/actions/auth.actions';
+import { connect } from "react-redux";
+import * as actions from "../../../redux/actions/auth";
 
-import Header from './Header';
+import Header from "./Header";
 
 const mapStateToProps = (state, ownProps) => ({
-    auth: state.auth,
+  currentUser: state.currentUser,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    logOut: () =>  dispatch(actions.logOut()),
+  logOut: () => dispatch(actions.logOut()),
 });
 
-export const HeaderContainer = connect(mapStateToProps, mapDispatchToProps)(Header);
+export const HeaderContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

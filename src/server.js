@@ -1,54 +1,57 @@
-require('dotenv').config();
-const express = require('express');
-const morgan = require('morgan');
-const path = require('path');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const database = require('./model/database');
+require("dotenv").config();
+const express = require("express");
+const morgan = require("morgan");
+const path = require("path");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const database = require("./model/database");
 
 const app = express();
 
-if(process.env.NODE_ENV === 'development') {
-    app.use(cors({
-        credentials: true,
-        origin: 'http://localhost:3000',
-    }));
+if (process.env.NODE_ENV === "development") {
+  app.use(
+    cors({
+      credentials: true,
+      origin: "http://localhost:3000",
+    })
+  );
 }
 
-app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({
+app.use(morgan("dev"));
+app.use(
+  bodyParser.urlencoded({
     extended: true,
-}));
+  })
+);
 app.use(bodyParser.json());
-app.use(cookieParser()); //you can provide a secret here to sign cookies if you wish
+app.use(cookieParser()); // you can provide a secret here to sign cookies if you wish
 
-const router = require('./routes');
+const router = require("./routes");
 app.use(router);
 
-if(process.env.NODE_ENV !== 'development') {
-    app.use(express.static(__dirname + '/client/build'));    
+if (process.env.NODE_ENV !== "development") {
+  app.use(express.static(__dirname + "/client/build"));
 }
 
 // general error handling
 app.use((err, req, res, next) => {
-    if(err) {
-        console.log(err);
-        res.sendStatus(err.status);
-        res.sendStatus(500);
-    }
-    next(err);
+  if (err) {
+    console.log(err);
+    res.sendStatus(err.status);
+    res.sendStatus(500);
+  }
+  next(err);
 });
 
 const port = process.env.PORT || 3001;
 
-if(process.env.NODE_ENV === 'development') {
-    database.seed();
+if (process.env.NODE_ENV === "development") {
+  database.seed();
 } else {
-    database.sync();
+  database.sync();
 }
 
 app.listen(port, () => {
-    console.log('Listening on', port);
+  console.log("Listening on", port);
 });
-    

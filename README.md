@@ -4,21 +4,9 @@
 
 A demo of how to authenticate users with React, Redux and Node.js.
 
-Open to extension.
+Does not protect against common vulnerabilities including brute-force attacks, dictionary attacks, SQL injections, and CSRF attacks.
 
-Note: this technique should not be used in production as it does not protect against vulnerabilities such as brute-force attacks, dictionary attacks, SQL injections, and CSRF attacks.
-
-## Tech Stack
-
-Database: Postgres
-
-ORM: Sequelize
-
-Server: Express
-
-Client: React/Redux, SCSS
-
-## Special Thanks
+## Resources
 
 - [Thinking in Redux](https://leanpub.com/thinking-in-Redux)
 - [Redux Logger](https://github.com/LogRocket/redux-logger)
