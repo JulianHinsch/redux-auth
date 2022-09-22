@@ -10,11 +10,11 @@ import styles from "./App.module.scss";
 
 export default class App extends Component {
   static propTypes = {
-    getAuth: PropTypes.func.isRequired,
+    getCurrentUser: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
-    this.props.getAuth();
+    this.props.getCurrentUser();
   }
 
   render() {

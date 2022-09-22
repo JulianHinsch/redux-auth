@@ -7,13 +7,13 @@ import styles from "./Signup.module.scss";
 export default class Signup extends Component {
   static propTypes = {
     signUp: PropTypes.func.isRequired,
-    setAuth: PropTypes.func.isRequired,
+    setCurrentUser: PropTypes.func.isRequired,
     message: PropTypes.string,
   };
 
   componentWillMount() {
     document.title = "Sign Up";
-    this.props.setAuth({ message: null });
+    this.props.setCurrentUser({ message: null });
   }
 
   state = {

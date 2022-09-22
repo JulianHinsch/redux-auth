@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   logIn: (credentials, redirectTo) =>
     dispatch(actions.logIn({ credentials, redirectTo })),
-  setAuth: (auth) => dispatch(actions.setAuth({ auth })),
+  setCurrentUser: (auth) => dispatch(actions.setCurrentUser({ auth })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -5,7 +5,7 @@ import * as actions from "../../../redux/actions/auth";
 import App from "./App";
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  getAuth: () => dispatch(actions.getAuth()),
+  getCurrentUser: () => dispatch(actions.getCurrentUser()),
 });
 
 export default withRouter(connect(null, mapDispatchToProps, null)(App));

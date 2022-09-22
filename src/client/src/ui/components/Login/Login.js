@@ -6,13 +6,13 @@ import styles from "./Login.module.scss";
 export default class Login extends Component {
   static propTypes = {
     logIn: PropTypes.func.isRequired,
-    setAuth: PropTypes.func.isRequired,
+    setCurrentUser: PropTypes.func.isRequired,
     message: PropTypes.string,
   };
 
   componentWillMount() {
     document.title = "Log In";
-    this.props.setAuth({ message: null });
+    this.props.setCurrentUser({ message: null });
   }
 
   state = {

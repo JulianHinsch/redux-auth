@@ -1,4 +1,4 @@
-import { SET_AUTH } from "../actions/auth";
+import { SET_CURRENT_USER } from "../actions/auth";
 
 const defaultState = {
   id: null,
@@ -10,9 +10,9 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case SET_AUTH:
-      const auth = action.payload;
-      return { ...state, ...auth };
+    case SET_CURRENT_USER:
+      const user = action.payload;
+      return { ...state, ...user };
     default:
       return state;
   }

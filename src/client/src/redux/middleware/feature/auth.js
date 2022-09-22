@@ -59,7 +59,7 @@ export default ({ dispatch }) =>
       case `${AUTH} ${API_ERROR}`:
         const message = _.get(action, "payload.response.data.message");
         if (message) {
-            next(setCurrentUser({ auth: { message } }));
+            next(setCurrentUser({ user: { message } }));
         }
         break;
       case `${AUTH} ${API_SUCCESS}`:
