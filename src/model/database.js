@@ -1,6 +1,8 @@
 const Sequelize = require("sequelize");
 
-const database = new Sequelize(process.env.DATABASE_URL);
+const database = new Sequelize(process.env.DATABASE_URL, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
+    dialect: 'postgres',
+});
 
 const User = require("./schema/User")(database, Sequelize);
 
