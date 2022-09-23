@@ -1,12 +1,14 @@
 const Sequelize = require("sequelize");
 
-const database = new Sequelize(process.env.DATABASE_URL, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
-    dialect: 'postgres',
-});
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
-const User = require("./schema/User")(database, Sequelize);
+const initialize = () => {
+  return sequelize.authenticate();
+}
 
-const sync = () => database.sync({ force: true });
+const User = require("./schema/User")(sequelize, Sequelize);
+
+const sync = () => sequelize.sync({ force: true });
 
 const seed = () => {
   return sync().then(async () => {
@@ -42,6 +44,7 @@ module.exports = {
   models: {
     User,
   },
+  initialize,
   sync,
   seed,
 };
