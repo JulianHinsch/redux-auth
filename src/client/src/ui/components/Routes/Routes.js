@@ -34,6 +34,6 @@ Routes.propTypes = {
   currentUser: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({ currentUser: state.currentUser });
+const mapStateToProps = (state, ownProps) => ({ currentUser: state.auth });
 
 export default withRouter(connect(mapStateToProps, null)(Routes));

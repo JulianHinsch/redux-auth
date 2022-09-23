@@ -4,7 +4,7 @@ import * as actions from "../../../redux/actions/auth";
 import Header from "./Header";
 
 const mapStateToProps = (state, ownProps) => ({
-  currentUser: state.currentUser,
+  currentUser: state.auth,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

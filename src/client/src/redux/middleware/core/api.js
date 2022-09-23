@@ -1,5 +1,5 @@
 import { API_REQUEST, apiError, apiSuccess } from "../../actions/api";
-import { API_ROOT } from "../../../utils/apiRoot";
+import { API_ROOT } from "../../../config";
 import axios from "axios";
 
 export default ({ dispatch }) =>

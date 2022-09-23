@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import * as validators from "../../../utils/validators";
+import * as validators from "../../../util";
 
 import styles from "./Signup.module.scss";
 
