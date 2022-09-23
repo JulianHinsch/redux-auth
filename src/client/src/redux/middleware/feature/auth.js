@@ -47,7 +47,6 @@ export default ({ dispatch }) =>
       case LOG_OUT:
         next(
           apiRequest({
-            data: null,
             method: "POST",
             url: "/logout",
             timeout: 3000,
