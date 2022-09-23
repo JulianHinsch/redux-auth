@@ -9,7 +9,7 @@ const database = require("./model/database");
 
 const app = express();
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV !== "production") {
   app.use(
     cors({
       credentials: true,
@@ -30,7 +30,7 @@ app.use(cookieParser()); // you can provide a secret here to sign cookies if you
 const router = require("./routes");
 app.use(router);
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(__dirname + "/client/build"));
 }
 
@@ -44,14 +44,23 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-const port = process.env.PORT || 3001;
+console.log('Initializing database...');
+database.initialize().then(() => {
+  if (process.env.NODE_ENV !== "production") {
+    console.log('Seeding database...');
+    database.seed();
+  } else {
+    console.log('Syncing database...');
+    database.sync();
+  }
 
-if (process.env.NODE_ENV === "development") {
-  database.seed();
-} else {
-  database.sync();
-}
+  const port = process.env.PORT || 3001;
 
-app.listen(port, () => {
-  console.log("Listening on", port);
-});
+  app.listen(port, () => {
+    console.log("Listening on", port);
+  });
+}).catch((err) => {
+  console.log('Error initializing database', err);
+})
+
+
