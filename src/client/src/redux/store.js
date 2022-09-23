@@ -13,13 +13,12 @@ const featureMiddleware = [authMiddleware];
 const coreMiddleware = [
   apiMiddleware,
   redirectMiddleware,
-  actionSplitterMiddleware, //this should really be first core but it throws errors
+  actionSplitterMiddleware, // this should really be first core but it throws errors
   createLogger({ collapsed: true }),
 ];
 
 export default () => {
-  return configureStore(
-    rootReducer,
+  return configureStore({ reducer: rootReducer },
     applyMiddleware(...featureMiddleware, ...coreMiddleware)
   );
 };
