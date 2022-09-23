@@ -41,7 +41,7 @@ const createToken = (user) =>
     }
   );
 
-const logout = (req, res, next) => {
+const logout = (req, res) => {
   const options = { maxAge: 0, overwrite: true };
   return res
     .status(200)
@@ -49,7 +49,6 @@ const logout = (req, res, next) => {
     .cookie("jwt_payload", null, options)
     .cookie("jwt_signature", null, options)
     .json({ success: true });
-  next();
 };
 
 const login = async (req, res, next) => {
