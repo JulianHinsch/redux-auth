@@ -1,4 +1,4 @@
-import { configureStore, applyMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./reducers/rootReducer.js";
 import { createLogger } from "redux-logger";
 
@@ -18,7 +18,8 @@ const coreMiddleware = [
 ];
 
 export default () => {
-  return configureStore({ reducer: rootReducer },
-    applyMiddleware(...featureMiddleware, ...coreMiddleware)
-  );
+  return configureStore({
+    reducer: rootReducer,
+    middleware: [...featureMiddleware, ...coreMiddleware]
+  });
 };
