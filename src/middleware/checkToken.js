@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const { jwt_header, jwt_payload, jwt_signature } = req.cookies;
+  const { id_token } = req.cookies;
 
-  if (jwt_header && jwt_payload && jwt_signature) {
-    const token = `${jwt_header}.${jwt_payload}.${jwt_signature}`;
+  if (id_token) {
     jwt.verify(
       token,
       process.env.SECRET_KEY,
@@ -18,7 +17,7 @@ module.exports = (req, res, next) => {
         if (err) {
           return res.status(401).json({
             success: false,
-            message: "Auth token is malformed",
+            message: "ID token is malformed",
           });
         } else {
           req.decoded = decoded;

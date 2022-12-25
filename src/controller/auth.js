@@ -10,16 +10,13 @@ const {
 } = require("./../utils/validators");
 
 const authSuccess = (res, token) => {
-  const tokenArr = token.split(".");
   const options = {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     secure: process.env.NODE_ENV !== "development",
   };
   return res
     .status(200)
-    .cookie("jwt_header", tokenArr[0], { httpOnly: true, ...options })
-    .cookie("jwt_payload", tokenArr[1], options)
-    .cookie("jwt_signature", tokenArr[2], { httpOnly: true, ...options })
+    .cookie("id_token", token, options)
     .json({
       success: true,
     });
@@ -45,9 +42,7 @@ const logout = (req, res) => {
   const options = { maxAge: 0, overwrite: true };
   return res
     .status(200)
-    .cookie("jwt_header", null, options)
-    .cookie("jwt_payload", null, options)
-    .cookie("jwt_signature", null, options)
+    .cookie("id_token", null, options)
     .json({ success: true });
 };
 

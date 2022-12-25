@@ -63,10 +63,11 @@ export default ({ dispatch }) =>
         break;
       case `${AUTH} ${API_SUCCESS}`:
       case GET_CURRENT_USER:
-        const jwtPayload = cookies.get("jwt_payload");
-        if (jwtPayload) {
+        const id_token = cookies.get("id_token");
+        if (id_token) {
+          const payload = id_token.split('.')[1];
           const { id, name, emailHash, exp } = JSON.parse(
-            window.atob(jwtPayload)
+            window.atob(payload)
           );
           // exp is in seconds not milliseconds
           if (exp * 1000 > new Date().getTime()) {
