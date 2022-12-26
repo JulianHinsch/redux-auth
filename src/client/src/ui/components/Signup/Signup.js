@@ -1,141 +1,100 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import * as validators from "../../../util";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import YupPassword from 'yup-password';
+
+import * as authActions from '../../../redux/actions/auth';
 
 import styles from "./Signup.module.scss";
+import { useNavigate } from "react-router-dom";
 
-export default class Signup extends Component {
-  static propTypes = {
-    signUp: PropTypes.func.isRequired,
-    setCurrentUser: PropTypes.func.isRequired,
-    message: PropTypes.string,
-  };
+YupPassword(Yup);
 
-  componentWillMount() {
+const SignupSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, "First name must be at least 2 characters")
+    .max(50, "First name cannot be longer than 50 characters")
+    .required("This field is required"),
+
+  lastName: Yup.string()
+    .min(2, "Last name must be at least 2 characters")
+    .max(50, "Last name cannot be longer than 50 characters")
+    .required("This field is required"),
+
+  email: Yup.string().email().required("This field is required"),
+
+  password: Yup.string()
+    .required("This field is required")
+    .min(8, "Password must be at least 8 characters long")
+    .minLowercase(1, 'Password must contain at least 1 lower case letter')
+    .minUppercase(1, 'Password must contain at least 1 upper case letter')
+    .minNumbers(1, 'Password must contain at least 1 number')
+    .minSymbols(1, 'Password must contain at least 1 special character'),
+});
+
+const Signup = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
     document.title = "Sign Up";
-    this.props.setCurrentUser({ message: null });
-  }
+  }, []);
 
-  state = {
-    firstName: "",
-    firstNameErrMsg: "",
-    lastName: "",
-    lastNameErrMsg: "",
-    email: "",
-    emailErrMsg: "",
-    password: "",
-    passwordErrMsg: "",
-    canSubmit: false,
-  };
+  useEffect(() => {
+    dispatch(authActions.setCurrentUser({ message: null }));
+  }, []);
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { firstName, lastName, email, password } = this.state;
-    this.props.signUp({
-      name: `${firstName} ${lastName}`,
-      email,
-      password,
-    });
-  };
+  const message = useSelector((state) => state.auth.message);
 
-  handleChange = (event) => {
-    const field = event.target.name;
-    const value = event.target.value;
-    this.setState(
-      {
-        [field]: value,
-        [`${field}ErrMsg`]: this.getErrMsg(field, value),
+  const handleSubmit = (values) => {
+    const { firstName, lastName, email, password } = values;
+    dispatch(authActions.signUp({
+      user: {
+        name: `${firstName} ${lastName}`,
+        email,
+        password,
       },
-      () => {
-        this.setState({ canSubmit: this.validateForm() });
-      }
-    );
+      callback: () => navigate("/")
+    }));
   };
 
-  getErrMsg = (field, userInput) => {
-    const validatorMap = {
-      email: validators.validateEmail,
-      firstName: validators.validateName,
-      lastName: validators.validateName,
-      password: validators.validatePassword,
-    };
-    const validator = validatorMap[field];
-    if (validator) {
-      return validator(userInput);
-    }
-    return "";
-  };
-
-  validateForm = () => {
-    return Object.keys(this.state).every((key) => {
-      // check all error messages are empty and all fields are not empty
-      return key.includes("ErrMsg")
-        ? this.state[key] === ""
-        : this.state[key] !== "";
-    });
-  };
-
-  render() {
-    return (
-      <main className={styles.signup_form}>
-        <h1>Sign Up</h1>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="firstName">First Name</label>
-            <input
-              name="firstName"
-              type="text"
-              required
-              onChange={this.handleChange}
-            />
-            <span className={styles.validation_err_msg}>
-              {this.state.firstNameErrMsg}
-            </span>
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              name="lastName"
-              type="text"
-              required
-              onChange={this.handleChange}
-            />
-            <span className={styles.validation_err_msg}>
-              {this.state.lastNameErrMsg}
-            </span>
-          </div>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              name="email"
-              type="email"
-              required
-              onChange={this.handleChange}
-            />
-            <span className={styles.validation_err_msg}>
-              {this.state.emailErrMsg}
-            </span>
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              name="password"
-              type="password"
-              required
-              onChange={this.handleChange}
-            />
-            <span className={styles.validation_err_msg}>
-              {this.state.passwordErrMsg}
-            </span>
-          </div>
-          <button type="submit" disabled={!this.state.canSubmit}>
+  return (
+    <main className={styles.signup_form}>
+      <h1>Sign Up</h1>
+      <Formik
+        initialValues={{
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+        }}
+        validationSchema={SignupSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <label htmlFor="firstName">First Name</label>
+          <Field name="firstName" type="text"></Field>
+          <ErrorMessage name="firstName" component="span" className="err-msg"></ErrorMessage>
+          <label htmlFor="lastName">Last Name</label>
+          <Field name="lastName" type="text"></Field>
+          <ErrorMessage name="lastName" component="span" className="err-msg"></ErrorMessage>
+          <label htmlFor="email">Email</label>
+          <Field name="email" type="email"></Field>
+          <ErrorMessage name="email" component="span" className="err-msg"></ErrorMessage>
+          <label htmlFor="password">Password</label>
+          <Field name="password" type="password"></Field>
+          <ErrorMessage name="password" component="span" className="err-msg"></ErrorMessage>
+          <button type="submit">
             Sign Up
           </button>
-        </form>
-        {this.props.message && (
-          <div className={styles.message}>{this.props.message}</div>
-        )}
-      </main>
-    );
-  }
+        </Form>
+      </Formik>
+      {message && (
+        <div className={styles.message}>{message}</div>
+      )}
+    </main>
+  );
 }
+
+export default Signup;
