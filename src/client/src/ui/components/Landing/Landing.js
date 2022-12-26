@@ -12,8 +12,8 @@ const Landing = () => {
     <main className={styles.landing}>
       <h1>Welcome!</h1>
       <p>
-        Please <Link to="/signup">sign up</Link> or&nbsp;
-        <Link to="/login">log in</Link>!
+        Please <Link to="/signup" state={{ from: "/" }}>sign up</Link> or&nbsp;
+        <Link to="/login" state={{ from: "/" }}>log in</Link>!
       </p>
     </main>
   );

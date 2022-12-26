@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import styles from "./Profile.module.scss";
 import Avatar from "../Avatar/Avatar";
+import { useSelector } from "react-redux";
 
-const Profile = ({ currentUser }) => {
+const Profile = () => {
+  const currentUser = useSelector(state => state.auth);
+
   useEffect(() => {
     document.title = `Redux Auth | ${currentUser.name}`;
   });
@@ -14,14 +16,6 @@ const Profile = ({ currentUser }) => {
       <h1>{currentUser.name}</h1>
     </main>
   );
-};
-
-Profile.propTypes = {
-  currentUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    emailHash: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default Profile;

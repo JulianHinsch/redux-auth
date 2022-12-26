@@ -1,82 +1,64 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import _ from "lodash";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
+import * as authActions from '../../../redux/actions/auth';
 
 import styles from "./Login.module.scss";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export default class Login extends Component {
-  static propTypes = {
-    logIn: PropTypes.func.isRequired,
-    setCurrentUser: PropTypes.func.isRequired,
-    message: PropTypes.string,
-  };
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().email().required("This field is required"),
+  password: Yup.string().required("This field is required"),
+});
 
-  componentWillMount() {
+const Login = (props) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
     document.title = "Log In";
-    this.props.setCurrentUser({ message: null });
-  }
+  }, []);
 
-  state = {
-    email: "",
-    password: "",
-    canSubmit: false,
+  useEffect(() => {
+    dispatch(authActions.setCurrentUser({ message: null }));
+  }, []);
+
+  const handleSubmit = (values) => {
+    const { email, password } = values;
+    const redirectTo = _.get(location, "state.from");
+
+    dispatch(authActions.logIn({ credentials: { email, password }, callback: () => navigate(redirectTo) }));
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { email, password } = this.state;
-    //safe getter function, since we don't know if these properties will exist
-    const get = (obj, path) =>
-      path.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), obj);
-    const redirectTo = get(this.props, [
-      "location",
-      "state",
-      "from",
-      "pathname",
-    ]);
-    this.props.logIn({ email, password }, redirectTo);
-  };
-
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value }, () => {
-      const { email, password } = this.state;
-      this.setState({
-        canSubmit: [email, password].every((val) => val !== ""),
-      });
-    });
-  };
-
-  render() {
-    return (
-      <main className={styles.login_form}>
-        <h1>Log In</h1>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              name="email"
-              type="text"
-              required
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="password" required>
-              Password
-            </label>
-            <input
-              name="password"
-              type="password"
-              onChange={this.handleChange}
-            />
-          </div>
-          <button type="submit" disabled={!this.state.canSubmit}>
+  return (
+    <main className={styles.login_form}>
+      <h1>Log In</h1>
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+        }}
+        validationSchema={LoginSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form>
+          <label htmlFor="email">Email</label>
+          <Field name="email" type="email"></Field>
+          <ErrorMessage name="email"></ErrorMessage>
+          <label htmlFor="password">Password</label>
+          <Field name="password" type="password"></Field>
+          <ErrorMessage name="password"></ErrorMessage>
+          <button type="submit">
             Log In
           </button>
-        </form>
-        {this.props.message && (
-          <div className={styles.message}>{this.props.message}</div>
-        )}
-      </main>
-    );
-  }
+        </Form>
+      </Formik>
+    </main>
+  );
 }
+
+export default Login;

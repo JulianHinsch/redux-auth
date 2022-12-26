@@ -1,28 +1,49 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as authActions from "../../../redux/actions/auth";
 
-import Routes from "../Routes/Routes";
+import Landing from "../Landing/Landing";
+import Profile from "../Profile/Profile";
+import Login from "../Login/Login";
+import Signup from "../Signup/Signup";
+import NotFound from "../NotFound/NotFound";
 
-import { HeaderContainer as Header } from "../Header/HeaderContainer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Header from "../Header/Header";
 
 import "../../styles/global.scss";
 import styles from "./App.module.scss";
 
-export default class App extends Component {
-  static propTypes = {
-    getCurrentUser: PropTypes.func.isRequired,
-  };
+const App = () => {
+  const dispatch = useDispatch();
 
-  componentWillMount() {
-    this.props.getCurrentUser();
-  }
+  useEffect(() => {
+    dispatch(authActions.getCurrentUser())
+  }, []);
 
-  render() {
-    return (
-      <div className={styles.app}>
+  const currentUser = useSelector((state) => state.auth);
+
+  return (
+    <div className={styles.app}>
+      <BrowserRouter>
         <Header />
-        <Routes />
-      </div>
-    );
-  }
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={currentUser.isAuthenticated ? <Profile /> : <Landing />}
+          />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
+
+export default App;

@@ -8,17 +8,17 @@ export const apiRequest = ({
   url,
   timeout,
   feature,
-  redirectTo,
+  callback,
 }) => ({
   type: `${feature} ${API_REQUEST}`,
   payload: data,
-  meta: { method, url, timeout, feature, redirectTo },
+  meta: { method, url, timeout, feature, callback },
 });
 
-export const apiSuccess = ({ response, feature, redirectTo }) => ({
+export const apiSuccess = ({ response, feature, callback }) => ({
   type: `${feature} ${API_SUCCESS}`,
   payload: response,
-  meta: { feature, redirectTo },
+  meta: { feature, callback },
 });
 
 export const apiError = ({ error, feature }) => ({
