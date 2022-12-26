@@ -19,7 +19,6 @@ export default ({ dispatch }) =>
     switch (action.type) {
       case LOG_IN:
         const credentials = action.payload;
-        const { redirectTo } = action.meta;
         next(
           apiRequest({
             data: credentials,
@@ -27,7 +26,7 @@ export default ({ dispatch }) =>
             url: "/login",
             timeout: 3000,
             feature: AUTH,
-            redirectTo,
+            callback: action.meta.callback,
           })
         );
         break;
@@ -40,7 +39,7 @@ export default ({ dispatch }) =>
             url: "/signup",
             timeout: 3000,
             feature: AUTH,
-            redirectTo: null,
+            callback: action.meta.callback,
           })
         );
         break;
@@ -51,7 +50,7 @@ export default ({ dispatch }) =>
             url: "/logout",
             timeout: 3000,
             feature: AUTH,
-            redirectTo: null,
+            callback: action.meta.callback,
           })
         );
         break;
