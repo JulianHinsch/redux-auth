@@ -32,6 +32,7 @@ a {
   background-color: white;
   border-radius: 5px;
   margin: 0 auto 5% auto;
+
   @media (min-width: 768px) {
     margin: 0 auto 40px auto;
   }
@@ -40,9 +41,11 @@ a {
 @mixin auth_form {
   @include card;
   padding: 40px 5%;
+
   & h1 {
     margin-top: 0px;
   }
+
   & input {
     display: block;
     width: 100%;
@@ -53,25 +56,32 @@ a {
     padding-left: 5px;
     font-size: 14px;
   }
+
   & label {
     display: block;
     color: #333;
     font-size: 12px;
     margin-bottom: 5px;
+
     &::after {
       content: " *";
       color: red;
     }
   }
+
   & button[type="submit"] {
     @include submit-button($color-button-green);
   }
-  & .validation_err_msg {
+
+  // class styling doesn't play nice with formik/scss modules)
+  // sloppy workaround
+  & span {
     color: red;
     font-size: 12px;
     float: right;
     margin-top: -15px;
   }
+
   & .message {
     @include message($color-error-background, $color-error-border, white);
   }
