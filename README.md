@@ -2,7 +2,7 @@
 
 <a href='http://www.recurse.com' title='Made with love at the Recurse Center'><img src='https://cloud.githubusercontent.com/assets/2883345/11322972/9e553260-910b-11e5-8de9-a5bf00c352ef.png' height='59px'/></a>
 
-A demo of how to authenticate users with React, Redux and Node.js.
+From-scratch authentication of users with React, Redux and Node.js.
 
 Does not protect against common vulnerabilities including brute-force attacks, dictionary attacks, SQL injections, and CSRF attacks.
 
